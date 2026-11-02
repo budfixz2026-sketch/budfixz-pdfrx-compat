@@ -1,0 +1,38 @@
+{
+  "status": "LOCAL_ONLY_UNPUBLISHED",
+  "purpose": "Coherent Git-source package pair for BUDFIXZ: a byte-exact upstream PDF cache fix with the existing Auth RxDart and image dependency versions preserved.",
+  "repositoryContainsBUDFIXZApplicationCodeOrConfiguration": false,
+  "applicationCloudOrRemoteChanges": false,
+  "parent": {
+    "package": "pdfrx",
+    "upstreamVersion": "2.4.5",
+    "compatibilityVersion": "2.4.5+budfixz.1",
+    "officialArchive": "https://pub.dev/api/archives/pdfrx-2.4.5.tar.gz",
+    "officialArchiveSha256": "4e0efc23547d319ae6089e9593c2c9aca6d858a844eaa7848f95e2c2efea919c",
+    "changes": [
+      "version and publish_to metadata",
+      "pdfrx_engine hosted dependency replaced by relative path ../pdfrx_engine"
+    ],
+    "allDartNativeAssetsAndLicenseByteIdentical": true,
+    "licenseSha256": "050ccfd8256df03e5ccaec222c0f87a4e5e2069c69515f027b534a63fb00fe23"
+  },
+  "engine": {
+    "package": "pdfrx_engine",
+    "upstreamVersion": "0.4.4",
+    "compatibilityVersion": "0.4.4+budfixz.1",
+    "changes": [
+      "version and publish_to metadata",
+      "Byte-exact official0.4.6 lib/src/native/pdf_file_cache.dart"
+    ],
+    "allOtherOriginalSourcesAndLicenseByteIdentical": true,
+    "originalSdkAndDependencyConstraintsPreserved": true,
+    "patchRecord": "packages/pdfrx_engine/BUDFIXZ_COMPAT_PATCH.json",
+    "fixedFileSha256": "e516e670db6d2fb24b9be18e8d2ed89dfdc3dabd644e151bef3cae0f1efc2a38"
+  },
+  "upstreamAttribution": "pdfrx and pdfrx_engine authors, including @espresso3389 (Takashi Kawasaki); both original MIT license files retained verbatim.",
+  "gitDependencyContract": {
+    "package": "pdfrx",
+    "path": "packages/pdfrx",
+    "engineIsRelativePathDependencyInsideSameRepository": true
+  }
+}

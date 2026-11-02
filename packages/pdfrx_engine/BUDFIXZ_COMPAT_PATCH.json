@@ -1,0 +1,28 @@
+{
+  "package": "pdfrx_engine",
+  "compatibilityVersion": "0.4.4+budfixz.1",
+  "purpose": "Backport the official nullable PDF-cache fix while preserving the original dependency graph used by BUDFIXZ authentication and Admin PDF viewing.",
+  "status": "LOCAL_ONLY_UNPUBLISHED",
+  "upstream": {
+    "repository": "https://github.com/espresso3389/pdfrx",
+    "originalVersion": "0.4.4",
+    "originalArchive": "https://pub.dev/api/archives/pdfrx_engine-0.4.4.tar.gz",
+    "originalArchiveSha256": "80a1facaf8f587fb2592b53d424a6dc61f74e26c009395f8e52da7d3d3b6b1e6",
+    "fixedVersion": "0.4.6",
+    "fixedArchive": "https://pub.dev/api/archives/pdfrx_engine-0.4.6.tar.gz",
+    "fixedArchiveSha256": "ef8f8cfa64255bfc91a559dd2d32d7cfe7a0f8003bac297bbf9a0aed1182fae5",
+    "attribution": "Original pdfrx_engine authors; MIT license and copyright retained verbatim."
+  },
+  "replacedFile": {
+    "path": "lib/src/native/pdf_file_cache.dart",
+    "originalSha256": "fea155528c67113d8c1033f66f2e464f5e4a3203e96bc0d6f4ac524ebb21b943",
+    "officialFixedSha256": "e516e670db6d2fb24b9be18e8d2ed89dfdc3dabd644e151bef3cae0f1efc2a38",
+    "replacement": "Byte-exact file from the verified official 0.4.6 published archive; no handwritten runtime changes."
+  },
+  "manifestChanges": [
+    "version 0.4.4 to 0.4.4+budfixz.1",
+    "publish_to: none"
+  ],
+  "sdkAndDependencyConstraintsChanged": false,
+  "licenseSha256": "050ccfd8256df03e5ccaec222c0f87a4e5e2069c69515f027b534a63fb00fe23"
+}
