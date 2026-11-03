@@ -1,0 +1,55 @@
+name: Import reviewed PDF compatibility source
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: import-reviewed-pdfrx-source
+  cancel-in-progress: false
+
+jobs:
+  import:
+    if: ${{ github.repository == 'budfixz2026-sketch/budfixz-pdfrx-compat' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    env:
+      BUNDLE_PATH: budfixz-pdfrx-compat-e5a133638aed.bundle
+      BUNDLE_SHA256: d963877d74566a31c65a70a5ee2f4fe3d4f1a935b5bc4a419380eb9068c3f04d
+      SOURCE_COMMIT: e5a133638aed8ea83ca28178852fc1396461d16f
+      SOURCE_TREE: bcbbefaaa91a03691d7c100bb7aef80d62f08435
+      TARGET_REF: refs/heads/compat
+    steps:
+      - name: Check out publication helper
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # Official v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: true
+          clean: false
+      - name: Verify and import the exact audited commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = 'budfixz2026-sketch/budfixz-pdfrx-compat'
+          test "$GITHUB_REF" = 'refs/heads/main'
+          printf '%s  %s\n' "$BUNDLE_SHA256" "$BUNDLE_PATH" | sha256sum --check --strict
+          git bundle verify "$BUNDLE_PATH"
+          test "$(git bundle list-heads "$BUNDLE_PATH")" = "$SOURCE_COMMIT refs/heads/main"
+          git -c core.hooksPath=/dev/null fetch --no-tags "./$BUNDLE_PATH" refs/heads/main
+          test "$(git rev-parse --verify 'FETCH_HEAD^{commit}')" = "$SOURCE_COMMIT"
+          test "$(git rev-parse "$SOURCE_COMMIT^{tree}")" = "$SOURCE_TREE"
+          test "$(git rev-list --parents -n 1 "$SOURCE_COMMIT")" = "$SOURCE_COMMIT"
+          expected_line="${SOURCE_COMMIT}"$'\t'"${TARGET_REF}"
+          existing="$(git ls-remote --heads origin "$TARGET_REF")"
+          if [[ -n "$existing" ]]; then
+            test "$existing" = "$expected_line"
+            echo 'The reviewed commit is already present; no branch changed.'
+            exit 0
+          fi
+          git -c core.hooksPath=/dev/null push origin "$SOURCE_COMMIT:$TARGET_REF"
+          test "$(git ls-remote --heads origin "$TARGET_REF")" = "$expected_line"
+          echo 'The exact reviewed commit is published on compat; main is unchanged.'
